@@ -2,11 +2,10 @@
 
 import { useState, useEffect } from "react";
 import SearchBar from "@/src/components/ui/SearchBar";
-import ProductCard from "@/src/components/ui/ProductCard";
-import { searchProducts, SearchResult } from "@/src/services/api";
+import { searchHSN, HSNRecord } from "@/src/services/api";
 
 export default function Home() {
-  const [results, setResults] = useState<SearchResult[]>([]);
+  const [results, setResults] = useState<HSNRecord[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [hasSearched, setHasSearched] = useState(false);
@@ -21,7 +20,7 @@ export default function Home() {
     setError(null);
     setHasSearched(true);
     try {
-      const data = await searchProducts(query || undefined);
+      const data = await searchHSN(query || undefined);
       setResults(data);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong");
@@ -89,16 +88,34 @@ export default function Home() {
           <>
             <div className="results-header">
               <h2 className="results-count">
-                {results.length} product{results.length !== 1 ? "s" : ""} found
+                {results.length} record{results.length !== 1 ? "s" : ""} found
               </h2>
             </div>
-            <div className="product-grid" id="product-grid">
-              {results.map((product, index) => (
-                <ProductCard
-                  key={product._id || index}
-                  product={product}
-                />
-              ))}
+            <div className="table-container" style={{ overflowX: 'auto', marginTop: '20px', borderRadius: '8px', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)', backgroundColor: 'white' }}>
+              <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', minWidth: '600px' }}>
+                <thead style={{ backgroundColor: '#F9FAFB', borderBottom: '1px solid #E5E7EB' }}>
+                  <tr>
+                    <th style={{ padding: '12px 16px', fontWeight: '600', color: '#4B5563' }}>ID</th>
+                    <th style={{ padding: '12px 16px', fontWeight: '600', color: '#4B5563' }}>HSN Code</th>
+                    <th style={{ padding: '12px 16px', fontWeight: '600', color: '#4B5563' }}>Description</th>
+                    <th style={{ padding: '12px 16px', fontWeight: '600', color: '#4B5563' }}>GST Rate</th>
+                  </tr>
+                </thead>
+                <tbody style={{ borderTop: '1px solid #E5E7EB' }}>
+                  {results.map((record, index) => (
+                    <tr key={record.id || index} style={{ borderBottom: '1px solid #E5E7EB', transition: 'background-color 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#F9FAFB'} onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}>
+                      <td style={{ padding: '12px 16px', color: '#6B7280' }}>#{record.id}</td>
+                      <td style={{ padding: '12px 16px', fontWeight: '500', color: '#111827' }}>{record.hsn_code}</td>
+                      <td style={{ padding: '12px 16px', color: '#4B5563', maxWidth: '400px' }}>{record.description}</td>
+                      <td style={{ padding: '12px 16px' }}>
+                        <span style={{ backgroundColor: '#E0E7FF', color: '#3730A3', padding: '4px 8px', borderRadius: '9999px', fontSize: '0.875rem', fontWeight: '500' }}>
+                          {record.gst_rate}%
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </>
         )}

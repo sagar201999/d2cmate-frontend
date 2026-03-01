@@ -30,3 +30,25 @@ export async function searchProducts(
 
   return res.json();
 }
+
+export interface HSNRecord {
+  id: number;
+  hsn_code: string | number;
+  description: string;
+  gst_rate: string | number;
+}
+
+export async function searchHSN(query?: string): Promise<HSNRecord[]> {
+  const url = query
+    ? `${API_BASE_URL}/hsn?search=${encodeURIComponent(query)}`
+    : `${API_BASE_URL}/hsn`;
+
+  const res = await fetch(url, { cache: "no-store" });
+
+  if (!res.ok) {
+    throw new Error(`API error: ${res.status}`);
+  }
+
+  const json = await res.json();
+  return json.data || [];
+}
