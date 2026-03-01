@@ -10,10 +10,7 @@ export default function Home() {
   const [error, setError] = useState<string | null>(null);
   const [hasSearched, setHasSearched] = useState(false);
 
-  // Load all results on mount
-  useEffect(() => {
-    handleSearch("");
-  }, []);
+  // Removed initial load so the table is empty until a search occurs
 
   const handleSearch = async (query: string) => {
     setIsLoading(true);
