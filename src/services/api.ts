@@ -8,6 +8,10 @@ export interface SearchResult {
   image?: string;
   category?: string;
   brand?: string;
+  hsn?: string;
+  desc?: string;
+  igst?: number;
+  cat?: string;
   [key: string]: unknown;
 }
 
