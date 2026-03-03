@@ -183,7 +183,9 @@ body {
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* ===== RESULTS SECTION ===== */
@@ -341,12 +343,26 @@ body {
   animation: pulse 1.2s ease-in-out infinite;
 }
 
-.pulse-dot:nth-child(2) { animation-delay: 0.15s; }
-.pulse-dot:nth-child(3) { animation-delay: 0.3s; }
+.pulse-dot:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.pulse-dot:nth-child(3) {
+  animation-delay: 0.3s;
+}
 
 @keyframes pulse {
-  0%, 100% { opacity: 0.3; transform: scale(0.8); }
-  50% { opacity: 1; transform: scale(1.2); }
+
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
 }
 
 .loading-text {
@@ -432,29 +448,223 @@ body {
   line-height: 1.6;
 }
 
+/* ===== FOOTER ===== */
+.site-footer {
+  background: rgba(0, 0, 0, 0.4);
+  border-top: 1px solid var(--card-border);
+  padding: 32px 24px 24px;
+  margin-top: auto;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.footer-logo {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--foreground);
+  letter-spacing: -0.02em;
+}
+
+.footer-tagline {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.footer-links {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.footer-link {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer-link:hover {
+  color: var(--accent-light);
+}
+
+.footer-divider {
+  color: var(--text-muted);
+  opacity: 0.4;
+  font-size: 0.7rem;
+}
+
+.footer-bottom {
+  border-top: 1px solid var(--card-border);
+  padding-top: 16px;
+}
+
+.footer-copyright {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+/* ===== POLICY PAGES ===== */
+.policy-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.policy-header {
+  padding: 48px 24px 32px;
+  border-bottom: 1px solid var(--card-border);
+}
+
+.policy-header-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.policy-back-link {
+  display: inline-block;
+  font-size: 0.9rem;
+  color: var(--accent-light);
+  text-decoration: none;
+  margin-bottom: 20px;
+  transition: opacity 0.2s ease;
+}
+
+.policy-back-link:hover {
+  opacity: 0.8;
+}
+
+.policy-title {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--foreground);
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+}
+
+.policy-updated {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.policy-content {
+  flex: 1;
+  max-width: 800px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 40px 24px 64px;
+}
+
+.policy-section {
+  margin-bottom: 32px;
+}
+
+.policy-section h2 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--foreground);
+  margin-bottom: 12px;
+  letter-spacing: -0.01em;
+}
+
+.policy-section p {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+}
+
+.policy-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.policy-section ul li {
+  position: relative;
+  padding-left: 20px;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.policy-section ul li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--accent-light);
+  font-size: 0.85rem;
+}
+
+.policy-link {
+  color: var(--accent-light);
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.policy-link:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 640px) {
   .hero-section {
     padding: 60px 16px 32px;
   }
+
   .hero-title {
     font-size: 2.2rem;
   }
+
   .hero-subtitle {
     font-size: 0.95rem;
   }
+
   .results-section {
     padding: 16px 16px 48px;
   }
+
   .product-grid {
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     gap: 12px;
   }
+
   .product-info {
     padding: 12px;
   }
+
   .search-button {
     padding: 10px 16px;
     font-size: 0.85rem;
+  }
+
+  .footer-main {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .policy-title {
+    font-size: 1.6rem;
   }
 }
