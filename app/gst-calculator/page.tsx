@@ -6,7 +6,7 @@ import { calculateGST, GSTResponse } from "@/src/services/gst";
 
 export default function GSTCalculator() {
     const [amount, setAmount] = useState<string>("");
-    const [rate, setRate] = useState<number>(18); // Default 18%
+    const [rate, setRate] = useState<string>("");
     const [type, setType] = useState<"exclusive" | "inclusive">("exclusive");
 
     const [result, setResult] = useState<GSTResponse | null>(null);
@@ -14,138 +14,140 @@ export default function GSTCalculator() {
 
     const handleCalculate = async () => {
         if (!amount || isNaN(Number(amount)) || Number(amount) <= 0) return;
+        if (!rate || isNaN(Number(rate)) || Number(rate) < 0) return;
 
         setIsLoading(true);
-        const data = await calculateGST(Number(amount), rate, type);
+        const data = await calculateGST(Number(amount), Number(rate), type);
         setResult(data);
         setIsLoading(false);
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 flex flex-col font-sans">
+        <div style={{ minHeight: '100vh', backgroundColor: '#f9fafb', fontFamily: 'sans-serif' }}>
             {/* Header */}
-            <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-10">
-                <div className="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                        <Link href="/" className="text-gray-500 hover:text-gray-900 transition-colors">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                            </svg>
-                        </Link>
-                        <h1 className="text-xl font-semibold text-gray-900">
-                            GST Calculator
-                        </h1>
-                    </div>
+            <header style={{ backgroundColor: '#fff', borderBottom: '1px solid #e5e7eb', padding: '16px 24px', position: 'sticky', top: 0, zIndex: 10, boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}>
+                <div style={{ maxWidth: '700px', margin: '0 auto', display: 'flex', alignItems: 'center', gap: '16px' }}>
+                    <Link href="/" style={{ color: '#374151', textDecoration: 'none', fontSize: '20px' }}>
+                        ←
+                    </Link>
+                    <h1 style={{ fontSize: '20px', fontWeight: '700', color: '#111827', margin: 0 }}>
+                        GST Calculator
+                    </h1>
                 </div>
             </header>
 
             {/* Main Content */}
-            <main className="flex-grow max-w-3xl w-full mx-auto px-4 py-8">
+            <main style={{ maxWidth: '700px', margin: '0 auto', padding: '32px 16px' }}>
 
-                <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8">
+                <div style={{ backgroundColor: '#fff', borderRadius: '16px', border: '1px solid #e5e7eb', padding: '32px', boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>
 
                     {/* Amount Input */}
-                    <div className="mb-8">
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Original Amount (₹)</label>
-                        <div className="relative">
-                            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 font-medium">₹</span>
-                            <input
-                                type="number"
-                                value={amount}
-                                onChange={(e) => setAmount(e.target.value)}
-                                placeholder="e.g. 1000"
-                                className="w-full pl-10 pr-4 py-3 text-lg border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all placeholder-gray-400"
-                            />
-                        </div>
+                    <div style={{ marginBottom: '24px' }}>
+                        <label style={{ display: 'block', fontSize: '14px', fontWeight: '600', color: '#111827', marginBottom: '8px' }}>
+                            Amount (₹)
+                        </label>
+                        <input
+                            type="number"
+                            value={amount}
+                            onChange={(e) => setAmount(e.target.value)}
+                            placeholder="Enter amount e.g. 1000"
+                            style={{ width: '100%', padding: '12px 16px', fontSize: '16px', border: '1px solid #d1d5db', borderRadius: '10px', outline: 'none', color: '#111827', boxSizing: 'border-box' }}
+                        />
                     </div>
 
-                    {/* Type Selection (Inclusive / Exclusive) */}
-                    <div className="mb-8">
-                        <label className="block text-sm font-medium text-gray-700 mb-2">GST Type</label>
-                        <div className="flex bg-gray-100 p-1 rounded-xl">
-                            <button
-                                onClick={() => setType("exclusive")}
-                                className={`flex-1 py-2 text-sm font-medium rounded-lg transition-all ${type === "exclusive"
-                                        ? "bg-white text-gray-900 shadow-sm"
-                                        : "text-gray-500 hover:text-gray-700 hover:bg-gray-50"
-                                    }`}
-                            >
+                    {/* GST Rate Input */}
+                    <div style={{ marginBottom: '24px' }}>
+                        <label style={{ display: 'block', fontSize: '14px', fontWeight: '600', color: '#111827', marginBottom: '8px' }}>
+                            GST Rate (%)
+                        </label>
+                        <input
+                            type="number"
+                            value={rate}
+                            onChange={(e) => setRate(e.target.value)}
+                            placeholder="Enter GST percentage e.g. 18"
+                            style={{ width: '100%', padding: '12px 16px', fontSize: '16px', border: '1px solid #d1d5db', borderRadius: '10px', outline: 'none', color: '#111827', boxSizing: 'border-box' }}
+                        />
+                    </div>
+
+                    {/* Type Selection - Radio Buttons */}
+                    <div style={{ marginBottom: '28px' }}>
+                        <label style={{ display: 'block', fontSize: '14px', fontWeight: '600', color: '#111827', marginBottom: '12px' }}>
+                            GST Type
+                        </label>
+                        <div style={{ display: 'flex', gap: '24px' }}>
+                            <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontSize: '15px', fontWeight: '500', color: '#111827' }}>
+                                <input
+                                    type="radio"
+                                    name="gstType"
+                                    value="exclusive"
+                                    checked={type === "exclusive"}
+                                    onChange={() => setType("exclusive")}
+                                    style={{ width: '18px', height: '18px', accentColor: '#059669' }}
+                                />
                                 Exclusive (Add GST)
-                            </button>
-                            <button
-                                onClick={() => setType("inclusive")}
-                                className={`flex-1 py-2 text-sm font-medium rounded-lg transition-all ${type === "inclusive"
-                                        ? "bg-white text-gray-900 shadow-sm"
-                                        : "text-gray-500 hover:text-gray-700 hover:bg-gray-50"
-                                    }`}
-                            >
+                            </label>
+                            <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontSize: '15px', fontWeight: '500', color: '#111827' }}>
+                                <input
+                                    type="radio"
+                                    name="gstType"
+                                    value="inclusive"
+                                    checked={type === "inclusive"}
+                                    onChange={() => setType("inclusive")}
+                                    style={{ width: '18px', height: '18px', accentColor: '#059669' }}
+                                />
                                 Inclusive (Remove GST)
-                            </button>
-                        </div>
-                    </div>
-
-                    {/* GST Rate Selection */}
-                    <div className="mb-8">
-                        <label className="block text-sm font-medium text-gray-700 mb-2">GST Rate (%)</label>
-                        <div className="flex gap-2 flex-wrap">
-                            {[0, 0.25, 3, 5, 12, 18, 28].map((r) => (
-                                <button
-                                    key={r}
-                                    onClick={() => setRate(r)}
-                                    className={`px-4 py-2 border rounded-xl text-sm font-medium transition-all ${rate === r
-                                            ? "bg-emerald-50 border-emerald-500 text-emerald-700"
-                                            : "bg-white border-gray-200 text-gray-600 hover:bg-gray-50 hover:border-gray-300"
-                                        }`}
-                                >
-                                    {r}%
-                                </button>
-                            ))}
+                            </label>
                         </div>
                     </div>
 
                     {/* Calculate Button */}
                     <button
                         onClick={handleCalculate}
-                        disabled={!amount || isLoading}
-                        className="w-full py-4 bg-emerald-600 text-white rounded-xl font-semibold text-lg shadow-sm hover:bg-emerald-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                        disabled={!amount || !rate || isLoading}
+                        style={{
+                            width: '100%', padding: '14px', backgroundColor: '#059669', color: '#fff',
+                            border: 'none', borderRadius: '10px', fontSize: '16px', fontWeight: '700',
+                            cursor: !amount || !rate || isLoading ? 'not-allowed' : 'pointer',
+                            opacity: !amount || !rate || isLoading ? 0.5 : 1,
+                        }}
                     >
-                        {isLoading ? (
-                            <span className="animate-pulse">Calculating...</span>
-                        ) : (
-                            "Calculate GST"
-                        )}
+                        {isLoading ? "Calculating..." : "Calculate GST"}
                     </button>
 
                 </div>
 
-                {/* Results Visuals */}
+                {/* Results */}
                 {result && result.success && (
-                    <div className="mt-8 bg-white border border-emerald-100 rounded-2xl overflow-hidden shadow-sm">
-                        <div className="bg-emerald-50 px-6 py-4 border-b border-emerald-100">
-                            <h3 className="text-emerald-800 font-semibold text-lg text-center">Calculation Summary</h3>
+                    <div style={{ marginTop: '32px', backgroundColor: '#fff', border: '2px solid #059669', borderRadius: '16px', overflow: 'hidden', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}>
+                        <div style={{ backgroundColor: '#059669', padding: '16px', textAlign: 'center' }}>
+                            <h3 style={{ margin: 0, color: '#fff', fontSize: '18px', fontWeight: '700' }}>Calculation Result</h3>
                         </div>
-                        <div className="p-6 md:p-8">
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-
-                                <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
-                                    <p className="text-sm text-gray-500 font-medium mb-1">Base Price</p>
-                                    <p className="text-2xl font-bold text-gray-900">₹{result.data.basePrice}</p>
-                                </div>
-
-                                <div className="bg-amber-50 rounded-xl p-4 border border-amber-100">
-                                    <p className="text-sm text-amber-600 font-medium mb-1">Total Tax ({result.data.rate}%)</p>
-                                    <p className="text-2xl font-bold text-amber-700">₹{result.data.taxAmount}</p>
-                                    <div className="mt-2 pt-2 border-t border-amber-200 flex justify-between text-xs font-medium text-amber-700/80">
-                                        <span>CGST: ₹{result.data.cgst}</span>
-                                        <span>SGST: ₹{result.data.sgst}</span>
-                                    </div>
-                                </div>
-
-                                <div className="bg-emerald-50 rounded-xl p-4 border border-emerald-100">
-                                    <p className="text-sm text-emerald-600 font-medium mb-1">Total Amount</p>
-                                    <p className="text-2xl font-bold text-emerald-700">₹{result.data.totalAmount}</p>
-                                </div>
-
+                        <div style={{ padding: '24px' }}>
+                            {/* Result Rows */}
+                            <div style={{ display: 'flex', justifyContent: 'space-between', padding: '12px 0', borderBottom: '1px solid #e5e7eb' }}>
+                                <span style={{ fontSize: '15px', fontWeight: '600', color: '#111827' }}>Base Price</span>
+                                <span style={{ fontSize: '15px', fontWeight: '700', color: '#111827' }}>₹{result.data.basePrice}</span>
+                            </div>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', padding: '12px 0', borderBottom: '1px solid #e5e7eb' }}>
+                                <span style={{ fontSize: '15px', fontWeight: '600', color: '#111827' }}>Total Tax ({result.data.rate}%)</span>
+                                <span style={{ fontSize: '15px', fontWeight: '700', color: '#b45309' }}>₹{result.data.taxAmount}</span>
+                            </div>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', padding: '12px 0', borderBottom: '1px solid #e5e7eb' }}>
+                                <span style={{ fontSize: '15px', fontWeight: '600', color: '#111827' }}>CGST ({result.data.rate / 2}%)</span>
+                                <span style={{ fontSize: '15px', fontWeight: '700', color: '#111827' }}>₹{result.data.cgst}</span>
+                            </div>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', padding: '12px 0', borderBottom: '1px solid #e5e7eb' }}>
+                                <span style={{ fontSize: '15px', fontWeight: '600', color: '#111827' }}>SGST ({result.data.rate / 2}%)</span>
+                                <span style={{ fontSize: '15px', fontWeight: '700', color: '#111827' }}>₹{result.data.sgst}</span>
+                            </div>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', padding: '16px 0 4px', borderTop: '2px solid #059669', marginTop: '4px' }}>
+                                <span style={{ fontSize: '17px', fontWeight: '700', color: '#059669' }}>Total Amount</span>
+                                <span style={{ fontSize: '17px', fontWeight: '800', color: '#059669' }}>₹{result.data.totalAmount}</span>
+                            </div>
+                            <div style={{ textAlign: 'center', marginTop: '12px' }}>
+                                <span style={{ fontSize: '13px', fontWeight: '500', color: '#6b7280', backgroundColor: '#f3f4f6', padding: '4px 12px', borderRadius: '999px' }}>
+                                    Type: {result.data.type === 'inclusive' ? 'Inclusive (GST included in price)' : 'Exclusive (GST added to price)'}
+                                </span>
                             </div>
                         </div>
                     </div>
