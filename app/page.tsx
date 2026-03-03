@@ -1,122 +1,74 @@
-"use client";
-
-import { useState, useEffect } from "react";
-import SearchBar from "@/src/components/ui/SearchBar";
-import { searchHSN, HSNRecord } from "@/src/services/api";
+import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Home() {
-  const [results, setResults] = useState<HSNRecord[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [hasSearched, setHasSearched] = useState(false);
+    return (
+        <div className="page-wrapper min-h-screen bg-gray-50 font-sans">
+            {/* Header with Logo */}
+            <header className="w-full bg-white shadow-sm py-4 px-6 flex items-center justify-between border-b border-gray-200">
+                <div className="flex items-center gap-3">
+                    <Image
+                        src="/logo-1.png"
+                        alt="D2CMate Logo"
+                        width={120}
+                        height={40}
+                        className="object-contain"
+                        priority
+                    />
+                </div>
+            </header>
 
-  // Removed initial load so the table is empty until a search occurs
+            {/* Main Content */}
+            <main className="max-w-5xl mx-auto px-6 py-12 flex flex-col items-center">
 
-  const handleSearch = async (query: string) => {
-    setIsLoading(true);
-    setError(null);
-    setHasSearched(true);
-    try {
-      const data = await searchHSN(query || undefined);
-      setResults(data);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong");
-      setResults([]);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+                <div className="text-center mb-12">
+                    <h1 className="text-4xl font-bold text-gray-900 mb-4">Merchant Tools Portal</h1>
+                    <p className="text-lg text-gray-600">
+                        Access essential D2C calculators and search utilities below.
+                    </p>
+                </div>
 
-  return (
-    <div className="page-wrapper">
-      {/* Hero / Header */}
-      <header className="hero-section">
-        <div className="hero-glow" />
-        <div className="hero-content">
-          <h1 className="hero-title">
-            <span className="hero-title-accent">D2C</span>Mate
-          </h1>
-          <p className="hero-subtitle">
-            Discover the best direct-to-consumer products
-          </p>
-          <SearchBar onSearch={handleSearch} isLoading={isLoading} />
+                {/* Tools Menu Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-4xl">
+
+                    {/* HSN Code Search Card */}
+                    <Link href="/hsn-search" className="group">
+                        <div className="bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-200 border border-gray-100 p-8 h-full flex flex-col items-center text-center">
+                            <div className="w-16 h-16 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                </svg>
+                            </div>
+                            <h2 className="text-2xl font-semibold text-gray-900 mb-3">HSN Code Search</h2>
+                            <p className="text-gray-500 flex-grow">
+                                Search and find HSN codes easily. Look up product categories, descriptions, and their applicable GST rates.
+                            </p>
+                            <div className="mt-6 text-blue-600 font-medium group-hover:underline">
+                                Open Tool &rarr;
+                            </div>
+                        </div>
+                    </Link>
+
+                    {/* GST Calculator Card */}
+                    <Link href="/gst-calculator" className="group">
+                        <div className="bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-200 border border-gray-100 p-8 h-full flex flex-col items-center text-center">
+                            <div className="w-16 h-16 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center mb-6 group-hover:bg-emerald-600 group-hover:text-white transition-colors duration-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                                </svg>
+                            </div>
+                            <h2 className="text-2xl font-semibold text-gray-900 mb-3">GST Rate Calculator</h2>
+                            <p className="text-gray-500 flex-grow">
+                                Compute tax components. Input a price to instantly calculate inclusive or exclusive GST amounts.
+                            </p>
+                            <div className="mt-6 text-emerald-600 font-medium group-hover:underline">
+                                Open Tool &rarr;
+                            </div>
+                        </div>
+                    </Link>
+
+                </div>
+            </main>
         </div>
-      </header>
-
-      {/* Results Section */}
-      <main className="results-section">
-        {error && (
-          <div className="error-banner" id="error-banner">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="error-icon">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="8" x2="12" y2="12" />
-              <line x1="12" y1="16" x2="12.01" y2="16" />
-            </svg>
-            <span>{error}</span>
-          </div>
-        )}
-
-        {isLoading && (
-          <div className="loading-container" id="loading-indicator">
-            <div className="loading-pulse">
-              <div className="pulse-dot" />
-              <div className="pulse-dot" />
-              <div className="pulse-dot" />
-            </div>
-            <p className="loading-text">Searching products...</p>
-          </div>
-        )}
-
-        {!isLoading && hasSearched && results.length === 0 && !error && (
-          <div className="empty-state" id="empty-state">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="empty-icon">
-              <circle cx="11" cy="11" r="8" />
-              <path d="m21 21-4.3-4.3" />
-              <path d="M8 11h6" />
-            </svg>
-            <h2 className="empty-title">No products found</h2>
-            <p className="empty-text">
-              Try a different search term or browse all products
-            </p>
-          </div>
-        )}
-
-        {!isLoading && results.length > 0 && (
-          <>
-            <div className="results-header">
-              <h2 className="results-count">
-                {results.length} record{results.length !== 1 ? "s" : ""} found
-              </h2>
-            </div>
-            <div className="table-container" style={{ overflowX: 'auto', marginTop: '20px', borderRadius: '8px', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)', backgroundColor: 'white' }}>
-              <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', minWidth: '600px' }}>
-                <thead style={{ backgroundColor: '#F9FAFB', borderBottom: '1px solid #E5E7EB' }}>
-                  <tr>
-                    <th style={{ padding: '12px 16px', fontWeight: '600', color: '#4B5563' }}>ID</th>
-                    <th style={{ padding: '12px 16px', fontWeight: '600', color: '#4B5563' }}>HSN Code</th>
-                    <th style={{ padding: '12px 16px', fontWeight: '600', color: '#4B5563' }}>Description</th>
-                    <th style={{ padding: '12px 16px', fontWeight: '600', color: '#4B5563' }}>GST Rate</th>
-                  </tr>
-                </thead>
-                <tbody style={{ borderTop: '1px solid #E5E7EB' }}>
-                  {results.map((record, index) => (
-                    <tr key={record.id || index} style={{ borderBottom: '1px solid #E5E7EB', transition: 'background-color 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#F9FAFB'} onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}>
-                      <td style={{ padding: '12px 16px', color: '#6B7280' }}>#{record.id}</td>
-                      <td style={{ padding: '12px 16px', fontWeight: '500', color: '#111827' }}>{record.hsn_code}</td>
-                      <td style={{ padding: '12px 16px', color: '#4B5563', maxWidth: '400px' }}>{record.description}</td>
-                      <td style={{ padding: '12px 16px' }}>
-                        <span style={{ backgroundColor: '#E0E7FF', color: '#3730A3', padding: '4px 8px', borderRadius: '9999px', fontSize: '0.875rem', fontWeight: '500' }}>
-                          {record.gst_rate}%
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </>
-        )}
-      </main>
-    </div>
-  );
+    );
 }
