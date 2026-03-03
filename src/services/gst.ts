@@ -1,4 +1,4 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://d2cmate-backend.onrender.com/api';
 
 export interface GSTCalculationData {
     basePrice: number;
