@@ -29,7 +29,7 @@ export default function Home() {
                 </div>
 
                 {/* Tools Menu Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-4xl">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-5xl">
 
                     {/* HSN Code Search Card */}
                     <Link href="/hsn-search" className="group">
@@ -62,6 +62,24 @@ export default function Home() {
                                 Compute tax components. Input a price to instantly calculate inclusive or exclusive GST amounts.
                             </p>
                             <div className="mt-6 text-emerald-600 font-medium group-hover:underline">
+                                Open Tool &rarr;
+                            </div>
+                        </div>
+                    </Link>
+
+                    {/* Volumetric Weight Calculator Card */}
+                    <Link href="/volumetric-calculator" className="group">
+                        <div className="bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-200 border border-gray-100 p-8 h-full flex flex-col items-center text-center">
+                            <div className="w-16 h-16 bg-orange-50 text-orange-600 rounded-full flex items-center justify-center mb-6 group-hover:bg-orange-600 group-hover:text-white transition-colors duration-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                                </svg>
+                            </div>
+                            <h2 className="text-2xl font-semibold text-gray-900 mb-3">Volumetric Weight</h2>
+                            <p className="text-gray-500 flex-grow">
+                                Calculate volumetric weight from package dimensions. Compare with actual weight to find chargeable weight.
+                            </p>
+                            <div className="mt-6 text-orange-600 font-medium group-hover:underline">
                                 Open Tool &rarr;
                             </div>
                         </div>
