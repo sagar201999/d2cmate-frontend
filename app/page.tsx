@@ -29,7 +29,7 @@ export default function Home() {
                 </div>
 
                 {/* Tools Menu Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-5xl">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-5xl">
 
                     {/* HSN Code Search Card */}
                     <Link href="/hsn-search" className="group">
@@ -80,6 +80,24 @@ export default function Home() {
                                 Calculate volumetric weight from package dimensions. Compare with actual weight to find chargeable weight.
                             </p>
                             <div className="mt-6 text-orange-600 font-medium group-hover:underline">
+                                Open Tool &rarr;
+                            </div>
+                        </div>
+                    </Link>
+
+                    {/* Courier Rate Calculator Card */}
+                    <Link href="/courier-rates" className="group">
+                        <div className="bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-200 border border-gray-100 p-8 h-full flex flex-col items-center text-center">
+                            <div className="w-16 h-16 bg-purple-50 text-purple-600 rounded-full flex items-center justify-center mb-6 group-hover:bg-purple-600 group-hover:text-white transition-colors duration-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0" />
+                                </svg>
+                            </div>
+                            <h2 className="text-2xl font-semibold text-gray-900 mb-3">Courier Rates</h2>
+                            <p className="text-gray-500 flex-grow">
+                                Compare approximate courier charges across multiple carriers for your shipments.
+                            </p>
+                            <div className="mt-6 text-purple-600 font-medium group-hover:underline">
                                 Open Tool &rarr;
                             </div>
                         </div>
