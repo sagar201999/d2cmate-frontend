@@ -26,7 +26,7 @@ export interface CourierRatesResponse {
 export const getCourierRates = async (
     fromPincode: string,
     toPincode: string,
-    weight: number,
+    weight?: number,
     paymentType: string = 'prepaid',
     length: number = 10,
     breadth: number = 10,
